@@ -49,3 +49,13 @@ CREATE TABLE feedback(
 	`title` VARCHAR(100) NOT NULL,
 	`text` VARCHAR(1000) NOT NULL
 );
+
+CREATE VIEW orders_per_person AS
+	SELECT objednavka.`id`, `surname`, `first_name`, `name`, `price`, `size` FROM objednavka
+    INNER JOIN produkt ON produkt.id = objednavka.id_prod
+    INNER JOIN zakaznik ON zakaznik.id = objednavka.id_zak;
+    
+CREATE VIEW feedback_on_product AS
+	SELECT feedback.`id`, `name`, `surname`, `first_name`,`title`, `text` FROM feedback
+    INNER JOIN produkt ON produkt.id = feedback.id_prod
+    INNER JOIN zakaznik ON zakaznik.id = feedback.id_zak;
