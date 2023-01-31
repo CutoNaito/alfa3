@@ -28,8 +28,6 @@ CREATE TABLE produkt(
 	`size` ENUM('XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL') 
 );
 
-DROP TABLE produkt;
-
 CREATE TABLE objednavka(
 	`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`id_zak` INT NOT NULL,
