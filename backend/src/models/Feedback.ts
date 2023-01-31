@@ -27,7 +27,20 @@ export class Feedback {
 
     async save() {
         try {
-            const [result] = await database.execute("INSERT INTO feedback (id_zak, id_prod, title, text) VALUES (?, ?, ?, ?)", [this.id_zak, this.id_prod, this.title, this.text]);
+            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                }
+            };
+            const [result] = await database.execute("INSERT INTO feedback (id_zak, id_prod, title, text) VALUES (?, ?, ?, ?)", [this.id_zak, this.id_prod, this.title, this.text], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                } else {
+                    database.execute("COMMIT");
+                }
+            });
             return result;
         } catch (error) {
             console.log(error);
@@ -36,7 +49,20 @@ export class Feedback {
 
     async update() {
         try {
-            const [result] = await database.execute("UPDATE feedback SET id_zak = ?, id_prod = ?, title = ?, text = ? WHERE id = ?", [this.id_zak, this.id_prod, this.title, this.text, this.id]);
+            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                }
+            };
+            const [result] = await database.execute("UPDATE feedback SET id_zak = ?, id_prod = ?, title = ?, text = ? WHERE id = ?", [this.id_zak, this.id_prod, this.title, this.text, this.id], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                } else {
+                    database.execute("COMMIT");
+                }
+            });
             return result;
         } catch (error) {
             console.log(error);
@@ -45,7 +71,20 @@ export class Feedback {
 
     async delete() {
         try {
-            const [result] = await database.execute("DELETE FROM feedback WHERE id = ?", [this.id]);
+            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                }
+            };
+            const [result] = await database.execute("DELETE FROM feedback WHERE id = ?", [this.id], (err: any, result: any) => {
+                if (err) {
+                    console.log(err);
+                    database.execute("ROLLBACK");
+                } else {
+                    database.execute("COMMIT");
+                }
+            });
             return result;
         } catch (error) {
             console.log(error);
