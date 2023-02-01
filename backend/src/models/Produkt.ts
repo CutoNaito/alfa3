@@ -67,18 +67,18 @@ export class Produkt {
 
     async delete() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 }
             };
             const [result] = await database.execute("DELETE FROM produkt WHERE id = ?", [this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 } else {
-                    database.execute("COMMIT");
+                    database.query("COMMIT");
                 }
             });
             return result;

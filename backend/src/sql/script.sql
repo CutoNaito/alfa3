@@ -51,11 +51,11 @@ CREATE TABLE feedback(
 );
 
 CREATE VIEW orders_per_person AS
-	SELECT objednavka.`id`, `surname`, `first_name`, `name`, `price`, `size` FROM objednavka
+	SELECT objednavka.`id`, `id_zak`, `surname`, `first_name`, `name`, `price`, `size` FROM objednavka
     INNER JOIN produkt ON produkt.id = objednavka.id_prod
     INNER JOIN zakaznik ON zakaznik.id = objednavka.id_zak;
     
 CREATE VIEW feedback_on_product AS
-	SELECT feedback.`id`, `name`, `surname`, `first_name`,`title`, `text` FROM feedback
+	SELECT feedback.`id`, `id_prod`, `name`, `surname`, `first_name`,`title`, `text` FROM feedback
     INNER JOIN produkt ON produkt.id = feedback.id_prod
     INNER JOIN zakaznik ON zakaznik.id = feedback.id_zak;

@@ -52,3 +52,14 @@ export async function remove(req: Request, res: Response){
         res.status(500).json(error);
     }
 }
+
+export async function readReport(req: Request, res: Response){
+    const id_zak = parseInt(req.params.id_zak);
+    const objednavka = new Objednavka(undefined, id_zak);
+    try {
+        const result = await objednavka.getReport();
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}

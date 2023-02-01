@@ -31,18 +31,18 @@ export class Objednavka {
 
     async save() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 }
             };
             const [result] = await database.execute("INSERT INTO objednavka (id_zak, id_zam, id_prod, datum_vytvoreni, isPaid) VALUES (?, ?, ?, ?, ?)", [this.id_zak, this.id_zam, this.id_prod, this.datum_vytvoreni, this.isPaid], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 } else {
-                    database.execute("COMMIT");
+                    database.query("COMMIT");
                 }
             });
             return result;
@@ -107,6 +107,15 @@ export class Objednavka {
     async getById() {
         try {
             const [result] = await database.execute("SELECT * FROM objednavka WHERE id = ?", [this.id]);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getReport() {
+        try {
+            const [result] = await database.execute("SELECT * FROM orders_per_person WHERE id_zak = ?", [this.id_zak]);
             return result;
         } catch (error) {
             console.log(error);

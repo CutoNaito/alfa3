@@ -27,18 +27,18 @@ export class Feedback {
 
     async save() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 }
             };
             const [result] = await database.execute("INSERT INTO feedback (id_zak, id_prod, title, text) VALUES (?, ?, ?, ?)", [this.id_zak, this.id_prod, this.title, this.text], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 } else {
-                    database.execute("COMMIT");
+                    database.query("COMMIT");
                 }
             });
             return result;
@@ -49,18 +49,18 @@ export class Feedback {
 
     async update() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 }
             };
             const [result] = await database.execute("UPDATE feedback SET id_zak = ?, id_prod = ?, title = ?, text = ? WHERE id = ?", [this.id_zak, this.id_prod, this.title, this.text, this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 } else {
-                    database.execute("COMMIT");
+                    database.query("COMMIT");
                 }
             });
             return result;
@@ -71,18 +71,18 @@ export class Feedback {
 
     async delete() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
+            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 }
             };
             const [result] = await database.execute("DELETE FROM feedback WHERE id = ?", [this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
-                    database.execute("ROLLBACK");
+                    database.query("ROLLBACK");
                 } else {
-                    database.execute("COMMIT");
+                    database.query("COMMIT");
                 }
             });
             return result;
@@ -103,6 +103,15 @@ export class Feedback {
     async getById() {
         try {
             const [result] = await database.execute("SELECT * FROM feedback WHERE id = ?", [this.id]);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getReport() {
+        try {
+            const [result] = await database.execute("SELECT * FROM feedback_on_product WHERE id_prod = ?", [this.id_prod]);
             return result;
         } catch (error) {
             console.log(error);
