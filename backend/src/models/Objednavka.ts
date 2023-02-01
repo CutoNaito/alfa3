@@ -31,12 +31,10 @@ export class Objednavka {
 
     async save() {
         try {
-            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.query("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("INSERT INTO objednavka (id_zak, id_zam, id_prod, datum_vytvoreni, isPaid) VALUES (?, ?, ?, ?, ?)", [this.id_zak, this.id_zam, this.id_prod, this.datum_vytvoreni, this.isPaid], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -53,12 +51,10 @@ export class Objednavka {
 
     async update() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.execute("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("UPDATE objednavka SET id_zak = ?, id_zam = ?, id_prod = ?, datum_vytvoreni = ?, isPaid = ? WHERE id = ?", [this.id_zak, this.id_zam, this.id_prod, this.datum_vytvoreni, this.isPaid, this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -75,12 +71,10 @@ export class Objednavka {
 
     async delete() {
         try {
-            await database.execute("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.execute("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("DELETE FROM objednavka WHERE id = ?", [this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -124,7 +118,16 @@ export class Objednavka {
 
     async importData(path: string) {
         try {
-            const [result] = await database.execute("LOAD DATA INFILE ? INTO TABLE objednavka FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'", [path]);
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
+            const [result] = await database.query("LOAD DATA INFILE '" + path + "' INTO TABLE objednavka FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (`name`, `price`, `size`)").then((result: any) => {
+                database.query("COMMIT")
+            }).catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             return result;
         } catch (error) {
             console.log(error);

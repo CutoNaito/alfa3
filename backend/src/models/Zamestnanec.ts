@@ -31,12 +31,10 @@ export class Zamestnanec {
 
     async save() {
         try {
-            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.query("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("INSERT INTO zamestnanec (surname, first_name, phone_number, email, country) VALUES (?, ?, ?, ?, ?)", [this.surname, this.first_name, this.phone_number, this.email, this.country], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -53,12 +51,10 @@ export class Zamestnanec {
 
     async update() {
         try {
-            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.query("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("UPDATE zamestnanec SET surname = ?, first_name = ?, phone_number = ?, email = ?, country = ? WHERE id = ?", [this.surname, this.first_name, this.phone_number, this.email, this.country, this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -75,12 +71,10 @@ export class Zamestnanec {
 
     async delete() {
         try {
-            await database.query("START TRANSACTION"), [], (err: any, result: any) => {
-                if (err) {
-                    console.log(err);
-                    database.query("ROLLBACK");
-                }
-            };
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             const [result] = await database.execute("DELETE FROM zamestnanec WHERE id = ?", [this.id], (err: any, result: any) => {
                 if (err) {
                     console.log(err);
@@ -115,7 +109,16 @@ export class Zamestnanec {
 
     async importData(path: string) {
         try {
-            const [result] = await database.execute("LOAD DATA INFILE ? INTO TABLE zamestnanec FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'", [path]);
+            await database.query("START TRANSACTION").catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
+            const [result] = await database.query("LOAD DATA INFILE '" + path + "' INTO TABLE zamestnanec FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (`name`, `price`, `size`)").then((result: any) => {
+                database.query("COMMIT")
+            }).catch((err: any) => {
+                console.log(err);
+                database.query("ROLLBACK");
+            });
             return result;
         } catch (error) {
             console.log(error);
