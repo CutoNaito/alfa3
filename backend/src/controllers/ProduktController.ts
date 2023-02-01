@@ -53,3 +53,12 @@ export async function remove(req: Request, res: Response){
     }
 }
 
+export async function importData(req: Request, res: Response){
+    try {
+        const result = await new Produkt().importData(req.body.path);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+

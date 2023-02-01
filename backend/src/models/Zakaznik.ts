@@ -112,4 +112,13 @@ export class Zakaznik{
             console.log(error);
         }
     }
+
+    async importData(path: string) {
+        try {
+            const [result] = await database.execute("LOAD DATA INFILE ? INTO TABLE zakaznik FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'", [path]);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
