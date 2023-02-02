@@ -2,6 +2,12 @@ import { Feedback } from "../models/Feedback";
 import { Request, Response } from "express";
 
 export async function create(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object with the given request data and saves it to the database
+     */
     const feedback = new Feedback(undefined, req.body.id_zak, req.body.id_prod, req.body.title, req.body.text);
     try {
         const result = await feedback.save();
@@ -12,6 +18,12 @@ export async function create(req: Request, res: Response){
 }
 
 export async function readAll(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object and returns all the feedbacks from the database
+     */
     try {
         const result = await new Feedback().getAll();
         res.status(200).json(result);
@@ -21,6 +33,12 @@ export async function readAll(req: Request, res: Response){
 }
 
 export async function readById(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object with the given id and returns the feedback from the database
+    */
     const id: number = parseInt(req.params.id);
     const feedback = new Feedback(id);
     try {
@@ -32,6 +50,12 @@ export async function readById(req: Request, res: Response){
 }
 
 export async function update(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object with the given id and request data and updates the feedback in the database
+     */
     const id: number = parseInt(req.params.id);
     const feedback = new Feedback(id, req.body.id_zak, req.body.id_prod, req.body.title, req.body.text);
     try {
@@ -43,6 +67,12 @@ export async function update(req: Request, res: Response){
 }
 
 export async function remove(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object with the given id and deletes the feedback from the database
+     */
     const id: number = parseInt(req.params.id);
     const feedback = new Feedback(id);
     try {
@@ -54,6 +84,12 @@ export async function remove(req: Request, res: Response){
 }
 
 export async function readReport(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object with the given product id and returns the summary from the database
+     */
     const id_prod = parseInt(req.params.id_prod);
     const feedback = new Feedback(undefined, undefined, id_prod);
     try {
@@ -65,6 +101,12 @@ export async function readReport(req: Request, res: Response){
 }
 
 export async function importData(req: Request, res: Response){
+    /**
+     * @param req Request object
+     * @param res Response object
+     * 
+     * @description Creates a new Feedback object and imports the data from the given path
+     */
     try {
         const result = await new Feedback().importData(req.body.path);
         res.status(200).json(result);

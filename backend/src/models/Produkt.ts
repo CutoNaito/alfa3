@@ -1,6 +1,14 @@
 import database from "../config/DBConfig";
 
 export class Produkt {
+    /**
+     * @param id
+     * @param name
+     * @param price
+     * @param size
+     * 
+     * @description Creates a new Produkt object
+     */
     id: number | undefined;
     name: string | undefined;
     price: number | undefined;
@@ -22,6 +30,9 @@ export class Produkt {
     }
 
     async save() {
+        /**
+         * @description Saves the object to the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -42,6 +53,9 @@ export class Produkt {
     }
 
     async update() {
+        /**
+         * @description Updates the object in the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -62,6 +76,9 @@ export class Produkt {
     }
 
     async delete() {
+        /**
+         * @description Deletes the object from the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -82,6 +99,9 @@ export class Produkt {
     }
 
     async getAll() {
+        /**
+         * @description Returns all objects from the database
+        */
         try {
             const [result] = await database.execute("SELECT * FROM produkt");
             return result;
@@ -91,6 +111,9 @@ export class Produkt {
     }
 
     async getById() {
+        /**
+         * @description Returns the object with the given id from the database
+        */
         try {
             const [result] = await database.execute("SELECT * FROM produkt WHERE id = ?", [this.id]);
             return result;
@@ -100,6 +123,10 @@ export class Produkt {
     }
 
     async importData(path: string) {
+        /**
+         * @description Imports data from a CSV file into the database
+         * @param path Path to the CSV file
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);

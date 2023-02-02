@@ -1,6 +1,16 @@
 import database from "../config/DBConfig";
 
 export class Objednavka {
+    /**
+     * @param id
+     * @param id_zak
+     * @param id_zam
+     * @param id_prod
+     * @param datum_vytvoreni
+     * @param isPaid
+     * 
+     * @description Creates a new Objednavka object
+    */
     id: number | undefined;
     id_zak: number | undefined;
     id_zam: number | undefined;
@@ -30,6 +40,9 @@ export class Objednavka {
     }
 
     async save() {
+        /**
+         * @description Saves the object to the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -50,6 +63,9 @@ export class Objednavka {
     }
 
     async update() {
+        /**
+         * @description Updates the object in the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -70,6 +86,9 @@ export class Objednavka {
     }
 
     async delete() {
+        /**
+         * @description Deletes the object from the database
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -90,6 +109,9 @@ export class Objednavka {
     }
 
     async getAll() {
+        /**
+         * @description Returns all objects from the database
+        */
         try {
             const [result] = await database.execute("SELECT * FROM objednavka");
             return result;
@@ -99,6 +121,9 @@ export class Objednavka {
     }
 
     async getById() {
+        /**
+         * @description Returns the object with the specified id
+        */
         try {
             const [result] = await database.execute("SELECT * FROM objednavka WHERE id = ?", [this.id]);
             return result;
@@ -108,6 +133,9 @@ export class Objednavka {
     }
 
     async getReport() {
+        /**
+         * @description Returns a summary of all orders per person
+        */
         try {
             const [result] = await database.execute("SELECT * FROM orders_per_person WHERE id_zak = ?", [this.id_zak]);
             return result;
@@ -117,6 +145,10 @@ export class Objednavka {
     }
 
     async importData(path: string) {
+        /**
+         * @description Imports data from a CSV file into the database
+         * @param path Path to the CSV file
+        */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);

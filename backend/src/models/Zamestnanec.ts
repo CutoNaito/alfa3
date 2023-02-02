@@ -1,6 +1,16 @@
 import database from "../config/DBConfig";
 
 export class Zamestnanec {
+    /**
+     * @param id
+     * @param surname
+     * @param first_name
+     * @param phone_number
+     * @param email
+     * @param country
+     * 
+     * @description Creates a new Zamestnanec object
+     */
     id: number | undefined;
     surname: string | undefined;
     first_name: string | undefined;
@@ -30,6 +40,9 @@ export class Zamestnanec {
     }
 
     async save() {
+        /**
+         * @description Saves the object to the database
+         */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -50,6 +63,9 @@ export class Zamestnanec {
     }
 
     async update() {
+        /**
+         * @description Updates the object in the database
+         */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -70,6 +86,9 @@ export class Zamestnanec {
     }
 
     async delete() {
+        /**
+         * @description Deletes the object from the database
+         */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
@@ -90,6 +109,9 @@ export class Zamestnanec {
     }
 
     async getAll() {
+        /**
+         * @description Returns all objects from the database
+         */
         try {
             const [result] = await database.execute("SELECT * FROM zamestnanec");
             return result;
@@ -99,6 +121,9 @@ export class Zamestnanec {
     }
 
     async getById() {
+        /**
+         * @description Returns the object from the database with the specified id
+         */
         try {
             const [result] = await database.execute("SELECT * FROM zamestnanec WHERE id = ?", [this.id]);
             return result;
@@ -108,6 +133,10 @@ export class Zamestnanec {
     }
 
     async importData(path: string) {
+        /**
+         * @description Imports data from a CSV file to the database
+         * @param path Path to the CSV file
+         */
         try {
             await database.query("START TRANSACTION").catch((err: any) => {
                 console.log(err);
