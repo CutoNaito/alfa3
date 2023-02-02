@@ -1,8 +1,8 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "ts-node ./src/server.ts",
-    "dev": "nodemon ./src/server.ts"
+    "start": "ts-node ./bin/server.ts",
+    "dev": "nodemon ./bin/server.ts"
   },
   "author": "Matěj Šturma",
   "license": "ASL",

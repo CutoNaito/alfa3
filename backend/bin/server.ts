@@ -1,11 +1,11 @@
 import express from 'express';
 import "dotenv/config";
 
-import ZakaznikRoutes from './routes/ZakaznikRoutes';
-import ObjednavkaRoutes from './routes/ObjednavkaRoutes';
-import ProduktRoutes from './routes/ProduktRoutes';
-import FeedbackRoutes from './routes/FeedbackRoutes';
-import ZamestnanecRoutes from './routes/ZamestnanecRoutes';
+import ZakaznikRoutes from '../src/routes/ZakaznikRoutes';
+import ObjednavkaRoutes from '../src/routes/ObjednavkaRoutes';
+import ProduktRoutes from '../src/routes/ProduktRoutes';
+import FeedbackRoutes from '../src/routes/FeedbackRoutes';
+import ZamestnanecRoutes from '../src/routes/ZamestnanecRoutes';
 
 const app = express();
 const port = process.env.PORT;

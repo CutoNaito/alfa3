@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "commonjs",
-		"rootDir": "./src",
+		"rootDir": "./",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
@@ -10,5 +10,5 @@
 	},
 	"include": [
         "./src/**/*"
-    ]
+, "bin/server.ts"    ]
 }
