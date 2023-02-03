@@ -59,3 +59,4 @@ CREATE VIEW feedback_on_product AS
 	SELECT feedback.`id`, `id_prod`, `name`, `surname`, `first_name`,`title`, `text` FROM feedback
     INNER JOIN produkt ON produkt.id = feedback.id_prod
     INNER JOIN zakaznik ON zakaznik.id = feedback.id_zak;
+	
